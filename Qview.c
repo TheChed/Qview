@@ -1,5 +1,4 @@
 #include <arpa/inet.h>
-#include <assert.h>
 #include <errno.h>
 #include <math.h>
 #include <netinet/in.h>
@@ -11,16 +10,8 @@
 #include <sys/socket.h>
 #include <unistd.h>
 #define MAXBUFF 4096
-#define M_PI 3.14159265358979323846
-#define NM 1852			  // meters in a nm
-#define EARTH_RAD 6371008 // earth radius in meters
-#define FTM 0.3048		  // feet to meters
-#define DEG2RAD (M_PI / 180.0)
-#define NBITER 50000
-#define VSSAMPLE 10
 
 pthread_mutex_t mutex;
-const char delim[2] = ";";
 
 int quit = 0;
 
@@ -66,9 +57,11 @@ int umain(const char *Q)
 	if (nbread < 0 && errno == EAGAIN) {
 		printf("No data received.");
 		/* no data for now, call back when the socket is readable */
+		quit=1;
 		return 0;
 	}
 	if (nbread < 0) {
+		quit=1;
 		printf("Main socket Connection error");
 		return 0;
 	}
