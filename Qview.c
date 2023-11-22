@@ -60,6 +60,7 @@ int umain(const char *Q)
 
 	if (nbread == 0) {
 		printf("Main socket connection closed.");
+		quit=1;
 		return 0;
 	}
 	if (nbread < 0 && errno == EAGAIN) {
